@@ -15,7 +15,7 @@ public interface PessoaAPI {
 	
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
-	PessoaResponse postPessoa(@RequestBody @Valid PessoaRequest pessoaRequest);
+	PessoaIdResponse postPessoa(@RequestBody @Valid PessoaRequest pessoaRequest);
 
 
 }
