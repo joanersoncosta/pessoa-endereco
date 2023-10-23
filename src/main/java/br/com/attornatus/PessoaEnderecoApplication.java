@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class PessoaEnderecoApplication {
 
-	@GetMapping(value = "home")
+	@GetMapping
 	public String getHomeText() {
 		return "Pessoa Endereco - API Home";
 	}
