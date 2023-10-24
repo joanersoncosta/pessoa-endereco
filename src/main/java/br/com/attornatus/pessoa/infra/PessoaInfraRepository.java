@@ -3,6 +3,7 @@ package br.com.attornatus.pessoa.infra;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +22,12 @@ public class PessoaInfraRepository implements PessoaRepository {
 	@Override
 	public Pessoa salva(Pessoa pessoa) {
 		log.info("[inicia] PessoaInfraRepository - salva");
-		pessoaSpringDataJpaRepository.save(pessoa);
-		log.info("[finaliza] PessoaInfraRepository - salva");
+		try {
+			pessoaSpringDataJpaRepository.save(pessoa);
+		}catch (DataIntegrityViolationException e) {
+			throw APIException.build(HttpStatus.BAD_REQUEST, "Existem dados dublicados!");
+		}
+			log.info("[finaliza] PessoaInfraRepository - salva");
 		return pessoa;
 	}
 
