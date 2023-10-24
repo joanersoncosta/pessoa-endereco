@@ -42,4 +42,11 @@ public class PessoaInfraRepository implements PessoaRepository {
 		log.info("[finaliza] PessoaInfraRepository - buscaPessoaPorId");
 		return pessoa;
 	}
+
+	@Override
+	public void deletaPessoa(Pessoa pessoa) {
+		log.info("[inicia] PessoaInfraRepository - deletaPessoa");
+		pessoaSpringDataJpaRepository.delete(pessoa);
+		log.info("[finaliza] PessoaInfraRepository - deletaPessoa");
+	}
 }
