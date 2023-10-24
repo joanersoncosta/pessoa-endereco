@@ -32,7 +32,6 @@ public class Endereco {
 	@NotBlank
 	private String numero;
 
-
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
