@@ -5,12 +5,14 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import br.com.attornatus.pessoa.application.api.PessoaAlteracaoRequest;
 import br.com.attornatus.pessoa.application.api.PessoaDetalhadoResponse;
 import br.com.attornatus.pessoa.application.api.PessoaIdResponse;
 import br.com.attornatus.pessoa.application.api.PessoaListResponse;
 import br.com.attornatus.pessoa.application.api.PessoaRequest;
 import br.com.attornatus.pessoa.application.repository.PessoaRepository;
 import br.com.attornatus.pessoa.domain.Pessoa;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -53,5 +55,11 @@ public class PessoaApplicationService implements PessoaService {
 		Pessoa pessoa = pessoaRepository.buscaPessoaPorId(idPessoa);
 		pessoaRepository.deletaPessoa(pessoa);
 		log.info("[finaliza] ClienteApplicationService - deletaPessoaPorId");
+	}
+
+	@Override
+	public void patchAlteraPessoa(UUID idPessoa, PessoaAlteracaoRequest pessoaAlteracaoRequest) {
+		log.info("[inicia] ClienteApplicationService - patchAlteraPessoa");
+		log.info("[finaliza] ClienteApplicationService - patchAlteraPessoa");
 	}
 }
