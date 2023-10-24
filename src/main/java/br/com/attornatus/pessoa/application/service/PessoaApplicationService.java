@@ -61,7 +61,8 @@ public class PessoaApplicationService implements PessoaService {
 	public void patchAlteraPessoa(UUID idPessoa, PessoaAlteracaoRequest pessoaAlteracaoRequest) {
 		log.info("[inicia] ClienteApplicationService - patchAlteraPessoa");
 		Pessoa pessoa = pessoaRepository.buscaPessoaPorId(idPessoa);
-		pessoaRepository.alteraPessoa(pessoa);
+		pessoa.altera(pessoaAlteracaoRequest);
+		pessoaRepository.salva(pessoa);
 		log.info("[finaliza] ClienteApplicationService - patchAlteraPessoa");
 	}
 }

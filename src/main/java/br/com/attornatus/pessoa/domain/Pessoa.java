@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import br.com.attornatus.pessoa.application.api.PessoaAlteracaoRequest;
 import br.com.attornatus.pessoa.application.api.PessoaRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,5 +37,11 @@ public class Pessoa {
 		this.nomeCompleto = pessoaRequest.getNomeCompleto();
 		this.dataNascimento = pessoaRequest.getDataNascimento();
 		this.momentoDoDacastro = LocalDateTime.now();	
+	}
+
+	public void altera(PessoaAlteracaoRequest pessoaAlteracaoRequest) {
+		this.nomeCompleto = pessoaAlteracaoRequest.getNomeCompleto();
+		this.dataNascimento = pessoaAlteracaoRequest.getDataNascimento();
+		this.dataHoraDaultimaAlteracao = LocalDateTime.now();	
 	}
 }
