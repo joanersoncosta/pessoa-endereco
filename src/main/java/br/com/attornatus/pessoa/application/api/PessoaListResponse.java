@@ -21,6 +21,6 @@ public class PessoaListResponse {
 	}
 	
 	public static List<PessoaListResponse> converteListaPessoas(List<Pessoa> pessoas){
-		return null;//pessoas.stream().map(PessoaListResponse::new).collect(Collectors.toList());
+		return pessoas.stream().map(PessoaListResponse::new).collect(Collectors.toList());
 	}
 }
