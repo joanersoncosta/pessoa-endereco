@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,4 +31,7 @@ public interface PessoaAPI {
 	@ResponseStatus(value = HttpStatus.OK)
 	PessoaDetalhadoResponse getBuscaPessoaPorId(@PathVariable(value = "idPessoa") UUID idPessoa);
 
+	@DeleteMapping(value = "/{idPessoa}")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	void deletaPessoaPorId(@PathVariable(value = "idPessoa") UUID idPessoa);
 }
