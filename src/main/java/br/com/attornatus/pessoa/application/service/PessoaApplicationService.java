@@ -60,6 +60,8 @@ public class PessoaApplicationService implements PessoaService {
 	@Override
 	public void patchAlteraPessoa(UUID idPessoa, PessoaAlteracaoRequest pessoaAlteracaoRequest) {
 		log.info("[inicia] ClienteApplicationService - patchAlteraPessoa");
+		Pessoa pessoa = pessoaRepository.buscaPessoaPorId(idPessoa);
+		pessoaRepository.alteraPessoa(pessoa);
 		log.info("[finaliza] ClienteApplicationService - patchAlteraPessoa");
 	}
 }

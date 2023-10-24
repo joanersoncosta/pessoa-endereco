@@ -10,4 +10,5 @@ public interface PessoaRepository {
 	List<Pessoa> buscaTodasPessoas();
 	Pessoa buscaPessoaPorId(UUID idPessoa);
 	void deletaPessoa(Pessoa pessoa);
+	void alteraPessoa(Pessoa pessoa);
 }

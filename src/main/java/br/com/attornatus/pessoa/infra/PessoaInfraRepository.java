@@ -54,4 +54,10 @@ public class PessoaInfraRepository implements PessoaRepository {
 		pessoaSpringDataJpaRepository.delete(pessoa);
 		log.info("[finaliza] PessoaInfraRepository - deletaPessoa");
 	}
+
+	@Override
+	public void alteraPessoa(Pessoa pessoa) {
+		// TODO Auto-generated method stub
+		
+	}
 }
