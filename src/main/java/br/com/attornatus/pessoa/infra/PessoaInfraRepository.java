@@ -18,7 +18,6 @@ public class PessoaInfraRepository implements PessoaRepository {
 		log.info("[inicia] PessoaInfraRepository - salva");
 		pessoaSpringDataJpaRepository.save(pessoa);
 		log.info("[finaliza] PessoaInfraRepository - salva");
-
 		return pessoa;
 	}
 	

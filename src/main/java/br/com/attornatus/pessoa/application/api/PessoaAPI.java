@@ -20,7 +20,7 @@ public interface PessoaAPI {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	PessoaIdResponse postPessoa(@RequestBody @Valid PessoaRequest pessoaRequest);
 
-	@GetMapping
+	@GetMapping(value = "/lista")
 	@ResponseStatus(value = HttpStatus.OK)
 	List<PessoaListResponse> getTodasPessoas();
 

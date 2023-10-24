@@ -35,5 +35,6 @@ public class Pessoa {
 	public Pessoa(PessoaRequest pessoaRequest) {
 		this.nomeCompleto = pessoaRequest.getNomeCompleto();
 		this.dataNascimento = pessoaRequest.getDataNascimento();
-		this.momentoDoDacastro = LocalDateTime.now();	}
+		this.momentoDoDacastro = LocalDateTime.now();	
+	}
 }
