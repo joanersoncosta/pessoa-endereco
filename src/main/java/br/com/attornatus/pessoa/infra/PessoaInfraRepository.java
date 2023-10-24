@@ -3,8 +3,10 @@ package br.com.attornatus.pessoa.infra;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import br.com.attornatus.handler.APIException;
 import br.com.attornatus.pessoa.application.repository.PessoaRepository;
 import br.com.attornatus.pessoa.domain.Pessoa;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +38,7 @@ public class PessoaInfraRepository implements PessoaRepository {
 	public Pessoa buscaPessoaPorId(UUID idPessoa) {
 		log.info("[inicia] PessoaInfraRepository - buscaPessoaPorId");
 			Pessoa pessoa = pessoaSpringDataJpaRepository.findByIdPessoa(idPessoa)
-					.orElseThrow(() -> new RuntimeException("Pessoa não encontrada!"));
+					.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Pessoa não encontrada!"));
 		log.info("[finaliza] PessoaInfraRepository - buscaPessoaPorId");
 		return pessoa;
 	}
