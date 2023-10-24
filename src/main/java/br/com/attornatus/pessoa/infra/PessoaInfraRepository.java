@@ -1,6 +1,7 @@
 package br.com.attornatus.pessoa.infra;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
@@ -29,5 +30,14 @@ public class PessoaInfraRepository implements PessoaRepository {
 		List<Pessoa> findAll = pessoaSpringDataJpaRepository.findAll();
 		log.info("[finaliza] PessoaInfraRepository - buscaTodasPessoas");
 		return findAll;
+	}
+
+	@Override
+	public Pessoa buscaPessoaPorId(UUID idPessoa) {
+		log.info("[inicia] PessoaInfraRepository - buscaPessoaPorId");
+			Pessoa pessoa = pessoaSpringDataJpaRepository.findByIdPessoa(idPessoa)
+					.orElseThrow(() -> new RuntimeException("Pessoa não encontrada!"));
+		log.info("[finaliza] PessoaInfraRepository - buscaPessoaPorId");
+		return pessoa;
 	}
 }

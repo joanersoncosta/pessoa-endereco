@@ -42,9 +42,8 @@ public class PessoaApplicationService implements PessoaService {
 	@Override
 	public PessoaDetalhadoResponse buscaPessoaPorId(UUID idPessoa) {
 		log.info("[inicia] ClienteApplicationService - buscaPessoaPorId");
-		
+		Pessoa pessoa = pessoaRepository.buscaPessoaPorId(idPessoa);
 		log.info("[finaliza] ClienteApplicationService - buscaPessoaPorId");
-
-		return null;
+		return new PessoaDetalhadoResponse(pessoa);
 	}
 }
