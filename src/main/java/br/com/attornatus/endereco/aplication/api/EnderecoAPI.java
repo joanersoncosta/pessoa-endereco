@@ -27,6 +27,6 @@ public interface EnderecoAPI {
 
 	@GetMapping(value = "/{idEndereco}")
 	@ResponseStatus(value = HttpStatus.OK)
-	EnderecoDetalhadoResponse getBuscaEnderecoPorId(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
+	EnderecoPessoaDetalhadoResponse getBuscaEnderecoPorId(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
 
 }
