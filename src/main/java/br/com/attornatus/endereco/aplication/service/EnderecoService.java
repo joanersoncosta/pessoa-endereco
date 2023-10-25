@@ -13,4 +13,5 @@ public interface EnderecoService {
 	EnderecoIdResponse criaEndereco(UUID idPessoa, @Valid EnderecoRequest enderecoRequest);
 	List<EnderecoPessoaListResponse> buscaEnderecosDaPessoaComId(UUID idPessoa);
 	EnderecoPessoaDetalhadoResponse buscaEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco);
+	void deletaEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco);
 }

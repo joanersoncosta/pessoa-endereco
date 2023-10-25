@@ -42,4 +42,12 @@ public class EnderecoController implements EnderecoAPI {
 		log.info("[finaliza] EnderecoController - getEnderecoDaPessoaComId");
 		return enderecosDaPessoa;
 	}
+
+	@Override
+	public void deletaPessoaPorId(UUID idPessoa, UUID idEndereco) {
+		log.info("[inicia] EnderecoController - deletaPessoaPorId");
+		log.info("[idPessoa] {} - [idEndereco] {}", idPessoa, idEndereco);
+		enderecoService.deletaEnderecoDaPessoaComId(idPessoa, idEndereco);
+		log.info("[finaliza] EnderecoController - deletaPessoaPorId");
+	}
 }
