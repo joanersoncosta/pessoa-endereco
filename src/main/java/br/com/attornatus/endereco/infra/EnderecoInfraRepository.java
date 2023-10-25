@@ -1,5 +1,8 @@
 package br.com.attornatus.endereco.infra;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Repository;
 
 import br.com.attornatus.endereco.aplication.repository.EnderecoRepository;
@@ -20,6 +23,14 @@ public class EnderecoInfraRepository implements EnderecoRepository {
 		enderecoSpringDataJPArepository.save(endereco);
 		log.info("[finaliza] EnderecoInfraRepository - salvaEndereco");
 		return endereco;
+	}
+
+	@Override
+	public List<Endereco> buscaEnderecosDaPessoaComId(UUID idPessoa) {
+		log.info("[inicia] EnderecoInfraRepository - buscaEnderecosDaPessoaComId");
+		
+		log.info("[finaliza] EnderecoInfraRepository - buscaEnderecosDaPessoaComId");
+		return null;
 	}
 
 }

@@ -38,8 +38,9 @@ public class EnderecoApplicationService implements EnderecoService {
 	public List<EnderecoListResponse> buscaEnderecosDaPessoaComId(UUID idPessoa) {
 		log.info("[inicia] EnderecoApplicationService - criaEndereco");
 		PessoaService.buscaPessoaPorId(idPessoa);
+		List<Endereco> enderecosDaPessoa = enderecoRepository.buscaEnderecosDaPessoaComId(idPessoa);
 		log.info("[inicia] EnderecoApplicationService - criaEndereco");
-		return null;
+		return EnderecoListResponse.converte(enderecosDaPessoa);
 	}
 
 }
