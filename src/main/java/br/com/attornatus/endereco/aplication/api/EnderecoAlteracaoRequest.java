@@ -13,5 +13,4 @@ public class EnderecoAlteracaoRequest {
 	private String logradouro;
 	@NotBlank
 	private String numero;
-	private Boolean principal;
 }

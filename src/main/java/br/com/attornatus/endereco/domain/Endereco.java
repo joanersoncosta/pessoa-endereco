@@ -37,7 +37,7 @@ public class Endereco {
 	private String logradouro;
 	@NotBlank
 	private String numero;
-	private Boolean principal;
+	private boolean principal;
 	
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
@@ -48,7 +48,6 @@ public class Endereco {
 		this.cidade = enderecoRequest.getCidade();
 		this.logradouro = enderecoRequest.getLogradouro();
 		this.numero = enderecoRequest.getNumero();
-		this.principal = enderecoRequest.getPrincipal();
 		this.momentoDoDacastro = LocalDateTime.now();
 	}
 
@@ -58,5 +57,13 @@ public class Endereco {
 		this.logradouro = enderecoAlteracaoRequest.getLogradouro();
 		this.numero = enderecoAlteracaoRequest.getNumero();
 		this.dataHoraDaultimaAlteracao = LocalDateTime.now();
+	}
+
+	public void desativaEnderecoPrincipal() {
+		this.principal = false;
+	}
+
+	public void definirEnderecoPrincipal() {
+		this.principal = true;
 	}
 }
