@@ -84,5 +84,13 @@ public class EnderecoApplicationService implements EnderecoService {
 		enderecoRepository.salvaEndereco(endereco);
 		log.info("[finaliza] EnderecoApplicationService - definirEnderecoPrincipal");
 	}
+
+	@Override
+	public EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(UUID idPessoa, UUID idEndereco) {
+		log.info("[inicia] EnderecoApplicationService - obterEnderecoPrincipal");
+		
+		log.info("[finaliza] EnderecoApplicationService - obterEnderecoPrincipal");
+		return null;
+	}
 }
 
