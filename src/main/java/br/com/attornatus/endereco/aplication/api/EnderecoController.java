@@ -15,7 +15,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class EnderecoController implements EnderecoAPI {
 	private final EnderecoService enderecoService;
-	
+
 	@Override
 	public EnderecoIdResponse postEndereco(UUID idPessoa, @Valid EnderecoRequest EnderecoRequest) {
 		log.info("[inicia] EnderecoController - postEndereco");
@@ -24,12 +24,12 @@ public class EnderecoController implements EnderecoAPI {
 		log.info("[finaliza] EnderecoController - postEndereco");
 		return enderecoIdResponse;
 	}
-	
+
 	@Override
 	public List<EnderecoPessoaListResponse> getEnderecoDaPessoaComId(UUID idPessoa) {
 		log.info("[inicia] EnderecoController - getEnderecoDaPessoaComId");
 		log.info("[idPessoa] {}", idPessoa);
-		List<EnderecoPessoaListResponse>enderecosDaPessoa = enderecoService.buscaEnderecosDaPessoaComId(idPessoa);
+		List<EnderecoPessoaListResponse> enderecosDaPessoa = enderecoService.buscaEnderecosDaPessoaComId(idPessoa);
 		log.info("[finaliza] EnderecoController - getEnderecoDaPessoaComId");
 		return enderecosDaPessoa;
 	}
@@ -38,7 +38,8 @@ public class EnderecoController implements EnderecoAPI {
 	public EnderecoPessoaDetalhadoResponse getBuscaEnderecoPorId(UUID idPessoa, UUID idEndereco) {
 		log.info("[inicia] EnderecoController - getEnderecoDaPessoaComId");
 		log.info("[idPessoa] {} - [idEndereco] {}", idPessoa, idEndereco);
-		EnderecoPessoaDetalhadoResponse enderecosDaPessoa = enderecoService.buscaEnderecoDaPessoaComId(idPessoa, idEndereco);
+		EnderecoPessoaDetalhadoResponse enderecosDaPessoa = enderecoService.buscaEnderecoDaPessoaComId(idPessoa,
+				idEndereco);
 		log.info("[finaliza] EnderecoController - getEnderecoDaPessoaComId");
 		return enderecosDaPessoa;
 	}
@@ -49,5 +50,13 @@ public class EnderecoController implements EnderecoAPI {
 		log.info("[idPessoa] {} - [idEndereco] {}", idPessoa, idEndereco);
 		enderecoService.deletaEnderecoDaPessoaComId(idPessoa, idEndereco);
 		log.info("[finaliza] EnderecoController - deletaPessoaPorId");
+	}
+
+	@Override
+	public void patchEndereco(UUID idPessoa, UUID idEndereco,
+			@Valid EnderecoAlteracaoRequest enderecoAlteracaoRequest) {
+		log.info("[inicia] EnderecoController - patchEndereco");
+		log.info("[idPessoa] {} - [idEndereco] {}", idPessoa, idEndereco);
+		log.info("[finaliza] EnderecoController - patchEndereco");
 	}
 }
