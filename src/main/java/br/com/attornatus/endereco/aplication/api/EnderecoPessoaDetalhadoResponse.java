@@ -12,6 +12,7 @@ public class EnderecoPessoaDetalhadoResponse {
 	private String cidade;
 	private String logradouro;
 	private String numero;
+	private Boolean principal;
 
 	public EnderecoPessoaDetalhadoResponse(Endereco endereco) {
 		this.idEndereco = endereco.getIdEndereco();
@@ -19,5 +20,6 @@ public class EnderecoPessoaDetalhadoResponse {
 		this.cidade = endereco.getCidade();
 		this.logradouro = endereco.getLogradouro();
 		this.numero = endereco.getNumero();
+		this.principal = endereco.getPrincipal();
 	}
 }

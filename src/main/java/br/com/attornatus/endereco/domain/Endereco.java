@@ -37,7 +37,8 @@ public class Endereco {
 	private String logradouro;
 	@NotBlank
 	private String numero;
-
+	private Boolean principal;
+	
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
@@ -47,6 +48,7 @@ public class Endereco {
 		this.cidade = enderecoRequest.getCidade();
 		this.logradouro = enderecoRequest.getLogradouro();
 		this.numero = enderecoRequest.getNumero();
+		this.principal = enderecoRequest.getPrincipal();
 		this.momentoDoDacastro = LocalDateTime.now();
 	}
 

@@ -13,4 +13,5 @@ public class EnderecoRequest {
 	private String logradouro;
 	@NotBlank
 	private String numero;
+	private Boolean principal;
 }
