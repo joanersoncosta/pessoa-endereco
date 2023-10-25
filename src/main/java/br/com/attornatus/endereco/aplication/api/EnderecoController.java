@@ -69,4 +69,11 @@ public class EnderecoController implements EnderecoAPI {
 		log.info("[finaliza] EnderecoController - definirEnderecoPrincipal");
 		return "Endereço principal definido com sucesso.";
 	}
+
+	@Override
+	public EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(UUID idPessoa, UUID idEndereco) {
+		log.info("[inicia] EnderecoController - definirEnderecoPrincipal");
+		log.info("[finaliza] EnderecoController - definirEnderecoPrincipal");
+		return null;
+	}
 }

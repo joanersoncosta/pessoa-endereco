@@ -40,6 +40,10 @@ public interface EnderecoAPI {
 	void patchEndereco(@PathVariable UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco, @RequestBody @Valid EnderecoAlteracaoRequest enderecoAlteracaoRequest);
 	
 	@PatchMapping(value = "/principal/{idEndereco}")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@ResponseStatus(value = HttpStatus.OK)
 	String definirEnderecoPrincipal(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
+
+	@GetMapping(value = "/principal/{idEndereco}")
+	@ResponseStatus(value = HttpStatus.OK)
+	EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
 }
