@@ -27,20 +27,20 @@ public class Pessoa {
 	@Column(columnDefinition = "uuid", name = "idPessoa", updatable = false, unique = true, nullable = false)
 	private UUID idPessoa;
 	@NotBlank
-	private String nomeCompleto;
+	private String nome;
 	@NotNull
 	private LocalDate dataNascimento;
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
 	public Pessoa(PessoaRequest pessoaRequest) {
-		this.nomeCompleto = pessoaRequest.getNomeCompleto();
+		this.nome = pessoaRequest.getNome();
 		this.dataNascimento = pessoaRequest.getDataNascimento();
 		this.momentoDoDacastro = LocalDateTime.now();	
 	}
 
 	public void altera(PessoaAlteracaoRequest pessoaAlteracaoRequest) {
-		this.nomeCompleto = pessoaAlteracaoRequest.getNomeCompleto();
+		this.nome = pessoaAlteracaoRequest.getNome();
 		this.dataNascimento = pessoaAlteracaoRequest.getDataNascimento();
 		this.dataHoraDaultimaAlteracao = LocalDateTime.now();	
 	}

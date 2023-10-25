@@ -43,7 +43,7 @@ public interface EnderecoAPI {
 	@ResponseStatus(value = HttpStatus.OK)
 	String definirEnderecoPrincipal(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
 
-	@GetMapping(value = "/principal/{idEndereco}")
+	@GetMapping(value = "/principal")
 	@ResponseStatus(value = HttpStatus.OK)
-	EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
+	EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(@PathVariable(value = "idPessoa") UUID idPessoa);
 }

@@ -3,6 +3,7 @@ package br.com.attornatus.endereco.aplication.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.com.attornatus.endereco.aplication.api.EnderecoAlteracaoRequest;
@@ -12,6 +13,7 @@ import br.com.attornatus.endereco.aplication.api.EnderecoPessoaListResponse;
 import br.com.attornatus.endereco.aplication.api.EnderecoRequest;
 import br.com.attornatus.endereco.aplication.repository.EnderecoRepository;
 import br.com.attornatus.endereco.domain.Endereco;
+import br.com.attornatus.handler.APIException;
 import br.com.attornatus.pessoa.application.service.PessoaService;
 import br.com.attornatus.pessoa.domain.Pessoa;
 import jakarta.validation.Valid;
@@ -79,18 +81,38 @@ public class EnderecoApplicationService implements EnderecoService {
 	public void definirEnderecoPrincipal(UUID idPessoa, UUID idEndereco) {
 		log.info("[inicia] EnderecoApplicationService - definirEnderecoPrincipal");
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
-		endereco.desativaEnderecoPrincipal();
+		verificaEnderecoAtivoParaDesativar(idPessoa);
 		endereco.definirEnderecoPrincipal();
 		enderecoRepository.salvaEndereco(endereco);
 		log.info("[finaliza] EnderecoApplicationService - definirEnderecoPrincipal");
 	}
 
 	@Override
-	public EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(UUID idPessoa, UUID idEndereco) {
+	public EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(UUID idPessoa) {
 		log.info("[inicia] EnderecoApplicationService - obterEnderecoPrincipal");
-		
+		Endereco endereco = obterEndereco(idPessoa);
 		log.info("[finaliza] EnderecoApplicationService - obterEnderecoPrincipal");
-		return null;
+		return new EnderecoPessoaDetalhadoResponse(endereco);
+	}
+	
+	private void  verificaEnderecoAtivoParaDesativar(UUID idPessoa) {
+		List<Endereco> enderecosDaPessoa = enderecoRepository.buscaEnderecosDaPessoaComId(idPessoa);
+		for(Endereco desativaEnderecco: enderecosDaPessoa) {
+			if(desativaEnderecco.isPrincipal() != false) {
+				desativaEnderecco.desativaEnderecoPrincipal();
+				enderecoRepository.salvaEndereco(desativaEnderecco);
+			}
+		}
+	}
+	
+	public Endereco obterEndereco(UUID idPessoa) {
+		List<Endereco> enderecosDaPessoa = enderecoRepository.buscaEnderecosDaPessoaComId(idPessoa);
+		for(Endereco obtemEndereco: enderecosDaPessoa) {
+			if(obtemEndereco.isPrincipal() != false) {
+				return obtemEndereco;
+			}
+		}
+		throw APIException.build(HttpStatus.NOT_FOUND, "Endereço principal não encontrado");
 	}
 }
 

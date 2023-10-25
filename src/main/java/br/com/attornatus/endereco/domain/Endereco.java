@@ -3,6 +3,8 @@ package br.com.attornatus.endereco.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.stereotype.Indexed;
+
 import br.com.attornatus.endereco.aplication.api.EnderecoAlteracaoRequest;
 import br.com.attornatus.endereco.aplication.api.EnderecoRequest;
 import jakarta.persistence.Column;

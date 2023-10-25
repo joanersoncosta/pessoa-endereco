@@ -14,7 +14,6 @@ public class EnderecoPessoaListResponse {
 	private String cidade;
 	private String logradouro;
 	private String numero;
-	private boolean principal;
 
 	public EnderecoPessoaListResponse(Endereco endereco) {
 		this.idEndereco = endereco.getIdEndereco();
@@ -22,7 +21,6 @@ public class EnderecoPessoaListResponse {
 		this.cidade = endereco.getCidade();
 		this.logradouro = endereco.getLogradouro();
 		this.numero = endereco.getNumero();
-		this.principal = endereco.isPrincipal();
 	}
 	
 	public static List<EnderecoPessoaListResponse> converte(List<Endereco> enderecosDaPessoa) {
