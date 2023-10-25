@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import br.com.attornatus.endereco.aplication.api.EnderecoAlteracaoRequest;
 import br.com.attornatus.endereco.aplication.api.EnderecoIdResponse;
 import br.com.attornatus.endereco.aplication.api.EnderecoPessoaDetalhadoResponse;
 import br.com.attornatus.endereco.aplication.api.EnderecoPessoaListResponse;
@@ -60,6 +61,17 @@ public class EnderecoApplicationService implements EnderecoService {
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
 		enderecoRepository.deletaEndereco(endereco);
 		log.info("[inicia] EnderecoApplicationService - deletaEnderecoDaPessoaComId");
+	}
+
+	@Override
+	public void alteraEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco,
+			EnderecoAlteracaoRequest enderecoAlteracaoRequest) {
+		log.info("[inicia] EnderecoApplicationService - alteraEnderecoDaPessoaComId");
+		PessoaService.buscaPessoaPorId(idPessoa);
+		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
+		endereco.altera(enderecoAlteracaoRequest);
+		enderecoRepository.salvaEndereco(endereco);
+		log.info("[inicia] EnderecoApplicationService - alteraEnderecoDaPessoaComId");
 	}
 
 }
