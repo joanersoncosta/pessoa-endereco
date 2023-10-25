@@ -1,8 +1,10 @@
 package br.com.attornatus.endereco.aplication.api;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,4 +20,8 @@ public interface EnderecoAPI {
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	EnderecoIdResponse postEndereco(@PathVariable UUID idPessoa, @RequestBody @Valid EnderecoRequest EnderecoRequest);
+
+	@GetMapping
+	@ResponseStatus(value = HttpStatus.OK)
+	List<EnderecoListResponse> getEnderecoDaPessoaComId(@PathVariable UUID idPessoa);
 }
