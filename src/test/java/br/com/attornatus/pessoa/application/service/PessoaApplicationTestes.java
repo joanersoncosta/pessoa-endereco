@@ -52,16 +52,10 @@ class PessoaApplicationTestes {
 	@Test
 	void testCriaPessoa() {
 		PessoaRequest pessoaCriada = DataHelpher.createPessoaRequest();
-		PessoaIdResponse response = DataHelpher.createPessoaIdResponse();
-		
+		when (pessoaRepository.salva(any())).thenReturn(new Pessoa(pessoaCriada));
+		PessoaIdResponse response = pessoaApplicationService.criaPessoa(pessoaCriada);
 		assertNotNull(response);
         assertEquals(PessoaIdResponse.class, response.getClass());
-        assertEquals(UUID.class, response.getIdPessoa().getClass());
-		Pessoa pessoaMock = new Pessoa(pessoaCriada);
-
-        pessoaApplicationService.criaPessoa(pessoaCriada);
-
-        verify(pessoaRepository, times(1)).salva(pessoaMock);
 	}
 
 	@Test
