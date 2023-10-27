@@ -62,6 +62,10 @@ class EnderecoApplicationTest {
 		EnderecoRequest enderecoCriado= DataHelpher.getEnderecoRequest();
         when(pessoaRepository.buscaPessoaPorId(any(UUID.class))).thenReturn(pessoa);
 		when (enderecoRepository.salvaEndereco(any())).thenReturn(new Endereco(enderecoCriado));
+		enderecoApplicationService.buscaEnderecoDaPessoaComId(idPessoa, idEndereco);
+		verify(pessoaRepository, times(1)).buscaPessoaPorId(idPessoa);	
+		verify(enderecoRepository, times(1)).buscaEnderecoPeloId(idEndereco);	
+
 		EnderecoIdResponse response = enderecoApplicationService.criaEndereco(idPessoa, enderecoCriado);
 		assertNotNull(response);
         assertEquals(PessoaIdResponse.class, response.getClass());
