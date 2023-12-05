@@ -25,18 +25,18 @@ public interface PessoaAPI {
 	PessoaIdResponse postPessoa(@RequestBody @Valid PessoaRequest pessoaRequest);
 
 	@GetMapping
-	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseStatus(code = HttpStatus.OK)
 	List<PessoaListResponse> getTodasPessoas();
 	
 	@GetMapping(value = "/{idPessoa}")
-	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseStatus(code = HttpStatus.OK)
 	PessoaDetalhadoResponse getBuscaPessoaPorId(@PathVariable(value = "idPessoa") UUID idPessoa);
 
 	@DeleteMapping(value = "/{idPessoa}")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void deletaPessoaPorId(@PathVariable(value = "idPessoa") UUID idPessoa);
 
 	@PatchMapping(value = "/{idPessoa}")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void patchAlteraPessoa(@PathVariable(value = "idPessoa") UUID idPessoa, @RequestBody @Valid PessoaAlteracaoRequest pessoaAlteracaoRequest);
 }

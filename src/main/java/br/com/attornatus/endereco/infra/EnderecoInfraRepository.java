@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import br.com.attornatus.endereco.aplication.api.EnderecoPessoaDetalhadoResponse;
 import br.com.attornatus.endereco.aplication.repository.EnderecoRepository;
 import br.com.attornatus.endereco.domain.Endereco;
 import br.com.attornatus.handler.APIException;
@@ -49,5 +50,13 @@ public class EnderecoInfraRepository implements EnderecoRepository {
 		log.info("[inicia] EnderecoInfraRepository - deletaEndereco");
 		enderecoSpringDataJPArepository.delete(endereco);
 		log.info("[finaliza] EnderecoInfraRepository - deletaEndereco");
+	}
+
+	@Override
+	public Endereco desativaEndereco(EnderecoPessoaDetalhadoResponse buscaEndereco) {
+		log.info("[inicia] EnderecoInfraRepository - deletaEndereco");
+		
+		log.info("[finaliza] EnderecoInfraRepository - deletaEndereco");
+		return null;
 	}
 }
