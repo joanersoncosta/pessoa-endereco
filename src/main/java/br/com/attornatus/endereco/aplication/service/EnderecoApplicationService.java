@@ -14,8 +14,8 @@ import br.com.attornatus.endereco.aplication.api.EnderecoRequest;
 import br.com.attornatus.endereco.aplication.repository.EnderecoRepository;
 import br.com.attornatus.endereco.domain.Endereco;
 import br.com.attornatus.handler.APIException;
+import br.com.attornatus.pessoa.application.api.PessoaDetalhadoResponse;
 import br.com.attornatus.pessoa.application.service.PessoaService;
-import br.com.attornatus.pessoa.domain.Pessoa;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,13 +25,13 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class EnderecoApplicationService implements EnderecoService {
-	private final PessoaService PessoaService;
+	private final PessoaService pessoaService;
 	private final EnderecoRepository enderecoRepository;
 
 	@Override
 	public EnderecoIdResponse criaEndereco(UUID idPessoa, @Valid EnderecoRequest enderecoRequest) {
 		log.info("[inicia] EnderecoApplicationService - criaEndereco");
-		PessoaService.buscaPessoaPorId(idPessoa);
+		pessoaService.buscaPessoaPorId(idPessoa);
 		Endereco endereco = enderecoRepository.salvaEndereco(new Endereco(idPessoa, enderecoRequest));
 		log.info("[finaliza] EnderecoApplicationService - criaEndereco");
 		return EnderecoIdResponse.builder()
@@ -42,7 +42,7 @@ public class EnderecoApplicationService implements EnderecoService {
 	@Override
 	public List<EnderecoPessoaListResponse> buscaEnderecosDaPessoaComId(UUID idPessoa) {
 		log.info("[inicia] EnderecoApplicationService - criaEndereco");
-		PessoaService.buscaPessoaPorId(idPessoa);
+		pessoaService.buscaPessoaPorId(idPessoa);
 		List<Endereco> enderecosDaPessoa = enderecoRepository.buscaEnderecosDaPessoaComId(idPessoa);
 		log.info("[finaliza] EnderecoApplicationService - criaEndereco");
 		return EnderecoPessoaListResponse.converte(enderecosDaPessoa);
@@ -51,7 +51,7 @@ public class EnderecoApplicationService implements EnderecoService {
 	@Override
 	public EnderecoPessoaDetalhadoResponse buscaEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco) {
 		log.info("[inicia] EnderecoApplicationService - buscaEnderecoDaPessoaComId");
-		PessoaService.buscaPessoaPorId(idPessoa);
+		pessoaService.buscaPessoaPorId(idPessoa);
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
 		log.info("[finaliza] EnderecoApplicationService - buscaEnderecoDaPessoaComId");
 		return new EnderecoPessoaDetalhadoResponse(endereco);
@@ -60,7 +60,7 @@ public class EnderecoApplicationService implements EnderecoService {
 	@Override
 	public void deletaEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco) {
 		log.info("[inicia] EnderecoApplicationService - deletaEnderecoDaPessoaComId");
-		PessoaService.buscaPessoaPorId(idPessoa);
+		pessoaService.buscaPessoaPorId(idPessoa);
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
 		enderecoRepository.deletaEndereco(endereco);
 		log.info("[finaliza] EnderecoApplicationService - deletaEnderecoDaPessoaComId");
@@ -70,7 +70,7 @@ public class EnderecoApplicationService implements EnderecoService {
 	public void alteraEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco,
 			EnderecoAlteracaoRequest enderecoAlteracaoRequest) {
 		log.info("[inicia] EnderecoApplicationService - alteraEnderecoDaPessoaComId");
-		PessoaService.buscaPessoaPorId(idPessoa);
+		pessoaService.buscaPessoaPorId(idPessoa);
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
 		endereco.altera(enderecoAlteracaoRequest);
 		enderecoRepository.salvaEndereco(endereco);
@@ -80,8 +80,10 @@ public class EnderecoApplicationService implements EnderecoService {
 	@Override
 	public void definirEnderecoPrincipal(UUID idPessoa, UUID idEndereco) {
 		log.info("[inicia] EnderecoApplicationService - definirEnderecoPrincipal");
+		PessoaDetalhadoResponse pessoa = pessoaService.buscaPessoaPorId(idPessoa);
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
-		verificaEnderecoAtivoParaDesativar(idPessoa);
+		endereco.pertencePessoa(pessoa);
+		enderecoRepository.desativaEndereco(idPessoa);
 		endereco.definirEnderecoPrincipal();
 		enderecoRepository.salvaEndereco(endereco);
 		log.info("[finaliza] EnderecoApplicationService - definirEnderecoPrincipal");
@@ -93,16 +95,6 @@ public class EnderecoApplicationService implements EnderecoService {
 		Endereco endereco = obterEndereco(idPessoa);
 		log.info("[finaliza] EnderecoApplicationService - obterEnderecoPrincipal");
 		return new EnderecoPessoaDetalhadoResponse(endereco);
-	}
-	
-	private void  verificaEnderecoAtivoParaDesativar(UUID idPessoa) {
-		List<Endereco> enderecosDaPessoa = enderecoRepository.buscaEnderecosDaPessoaComId(idPessoa);
-		for(Endereco desativaEnderecco: enderecosDaPessoa) {
-			if(desativaEnderecco.isPrincipal() != false) {
-				desativaEnderecco.desativaEnderecoPrincipal();
-				enderecoRepository.salvaEndereco(desativaEnderecco);
-			}
-		}
 	}
 	
 	public Endereco obterEndereco(UUID idPessoa) {
