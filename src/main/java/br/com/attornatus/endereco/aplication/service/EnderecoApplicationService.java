@@ -1,6 +1,7 @@
 package br.com.attornatus.endereco.aplication.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -97,14 +98,23 @@ public class EnderecoApplicationService implements EnderecoService {
 		return new EnderecoPessoaDetalhadoResponse(endereco);
 	}
 	
-	public Endereco obterEndereco(UUID idPessoa) {
+	private Endereco obterEndereco(UUID idPessoa) {
+		log.info("[inicia] EnderecoApplicationService - obterEndereco");
 		List<Endereco> enderecosDaPessoa = enderecoRepository.buscaEnderecosDaPessoaComId(idPessoa);
-		for(Endereco obtemEndereco: enderecosDaPessoa) {
-			if(obtemEndereco.isPrincipal() != false) {
-				return obtemEndereco;
-			}
-		}
-		throw APIException.build(HttpStatus.NOT_FOUND, "Endereço principal não encontrado");
+		Optional<Endereco> getEndereco = enderecosDaPessoa.stream()
+				.filter(Endereco::isPrincipal)
+				.map(n -> {
+					if (n.isPrincipal() != true) {
+						return null;
+					}else{
+						return n;
+					}
+				}).findFirst();
+		
+		Endereco endereco = getEndereco.orElseThrow(
+				() -> APIException.build(HttpStatus.NOT_FOUND, "Endereço principal não encontrado"));
+		log.info("[finaliza] EnderecoApplicationService - obterEndereco");
+		return endereco;
 	}
 }
 
