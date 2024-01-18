@@ -11,12 +11,12 @@ import lombok.Value;
 @Value
 public class PessoaListResponse {
 	private UUID idPessoa;
-	private String nomeCompleto;
+	private String nome;
 	private LocalDate dataNascimento;
 	
 	public PessoaListResponse(Pessoa pessoa) {
 		this.idPessoa = pessoa.getIdPessoa();
-		this.nomeCompleto = pessoa.getNomeCompleto();
+		this.nome = pessoa.getNome();
 		this.dataNascimento = pessoa.getDataNascimento();
 	}
 	

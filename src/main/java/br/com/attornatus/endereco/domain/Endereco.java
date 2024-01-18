@@ -3,8 +3,12 @@ package br.com.attornatus.endereco.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+
 import br.com.attornatus.endereco.aplication.api.EnderecoAlteracaoRequest;
 import br.com.attornatus.endereco.aplication.api.EnderecoRequest;
+import br.com.attornatus.handler.APIException;
+import br.com.attornatus.pessoa.application.api.PessoaDetalhadoResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +43,8 @@ public class Endereco {
 	private String logradouro;
 	@NotBlank
 	private String numero;
-
+	private boolean principal;
+	
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
@@ -66,5 +71,19 @@ public class Endereco {
 		this.logradouro = enderecoAlteracaoRequest.getLogradouro();
 		this.numero = enderecoAlteracaoRequest.getNumero();
 		this.dataHoraDaultimaAlteracao = LocalDateTime.now();
+	}
+
+	public void desativaEnderecoPrincipal() {
+		this.principal = false;
+	}
+
+	public void definirEnderecoPrincipal() {
+		this.principal = true;
+	}
+	
+	public void pertencePessoa(PessoaDetalhadoResponse pessoa) {
+		if(!idPessoa.equals(pessoa.getIdPessoa())){
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Cliente não autorizado");
+		}
 	}
 }

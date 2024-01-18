@@ -60,4 +60,22 @@ public class EnderecoController implements EnderecoAPI {
 		enderecoService.alteraEnderecoDaPessoaComId(idPessoa, idEndereco, enderecoAlteracaoRequest);
 		log.info("[finaliza] EnderecoController - patchEndereco");
 	}
+	
+	@Override
+	public String definirEnderecoPrincipal(UUID idPessoa, UUID idEndereco) {
+		log.info("[inicia] EnderecoController - definirEnderecoPrincipal");
+		log.info("[idPessoa] {} - [idEndereco] {}", idPessoa, idEndereco);
+		enderecoService.definirEnderecoPrincipal(idPessoa, idEndereco);
+		log.info("[finaliza] EnderecoController - definirEnderecoPrincipal");
+		return "Endereço principal definido com sucesso.";
+	}
+
+	@Override
+	public EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(UUID idPessoa) {
+		log.info("[inicia] EnderecoController - definirEnderecoPrincipal");
+		log.info("[idPessoa] {}", idPessoa);
+		EnderecoPessoaDetalhadoResponse endereco = enderecoService.obterEnderecoPrincipal(idPessoa);
+		log.info("[finaliza] EnderecoController - definirEnderecoPrincipal");
+		return endereco;
+	}
 }

@@ -3,6 +3,7 @@ package br.com.attornatus.endereco.infra;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -16,13 +17,16 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class EnderecoInfraRepository implements EnderecoRepository {
-
 	private final EnderecoSpringDataJPArepository enderecoSpringDataJPArepository;
 	
 	@Override
 	public Endereco salvaEndereco(Endereco endereco) {
 		log.info("[inicia] EnderecoInfraRepository - salvaEndereco");
-		enderecoSpringDataJPArepository.save(endereco);
+		try {
+			enderecoSpringDataJPArepository.save(endereco);
+		}catch(DataIntegrityViolationException e) {
+			APIException.build(HttpStatus.BAD_REQUEST, "Cep já cadastrado para este Endereco!", e);
+		}
 		log.info("[finaliza] EnderecoInfraRepository - salvaEndereco");
 		return endereco;
 	}
@@ -39,7 +43,7 @@ public class EnderecoInfraRepository implements EnderecoRepository {
 	public Endereco buscaEnderecoPeloId(UUID idEndereco) {
 		log.info("[inicia] EnderecoInfraRepository - buscaEnderecoPeloId");
 		var endereco = enderecoSpringDataJPArepository.findById(idEndereco)
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Endereco não encontrado para o idEndereco = " + idEndereco));
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Endereco não encontrado para o idEndereco!"));
 		log.info("[finaliza] EnderecoInfraRepository - buscaEnderecoPeloId");
 		return endereco;
 	}
@@ -49,5 +53,18 @@ public class EnderecoInfraRepository implements EnderecoRepository {
 		log.info("[inicia] EnderecoInfraRepository - deletaEndereco");
 		enderecoSpringDataJPArepository.delete(endereco);
 		log.info("[finaliza] EnderecoInfraRepository - deletaEndereco");
+	}
+
+	@Override
+	public void desativaEndereco(UUID idPessoa) {
+		log.info("[inicia] EnderecoInfraRepository - desativaEndereco");
+		List<Endereco> enderecosDaPessoa = buscaEnderecosDaPessoaComId(idPessoa);
+		enderecosDaPessoa.stream().filter(Endereco::isPrincipal)
+		.forEach(n -> {
+			if (n.isPrincipal() == true)
+				n.desativaEnderecoPrincipal();
+				salvaEndereco(n);
+		});
+		log.info("[finaliza] EnderecoInfraRepository - desativaEndereco");
 	}
 }

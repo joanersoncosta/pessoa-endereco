@@ -20,22 +20,30 @@ import jakarta.validation.Valid;
 @RequestMapping("/v1/pessoa/{idPessoa}/endereco")
 public interface EnderecoAPI {
 	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
+	@ResponseStatus(code = HttpStatus.CREATED)
 	EnderecoIdResponse postEndereco(@PathVariable UUID idPessoa, @RequestBody @Valid EnderecoRequest enderecoRequest);
 
 	@GetMapping
-	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseStatus(code = HttpStatus.OK)
 	List<EnderecoPessoaListResponse> getEnderecoDaPessoaComId(@PathVariable UUID idPessoa);
 
 	@GetMapping(value = "/{idEndereco}")
-	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseStatus(code = HttpStatus.OK)
 	EnderecoPessoaDetalhadoResponse getBuscaEnderecoPorId(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
 
 	@DeleteMapping(value = "/{idEndereco}")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void deletaPessoaPorId(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
 
 	@PatchMapping(value = "/{idEndereco}")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void patchEndereco(@PathVariable UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco, @RequestBody @Valid EnderecoAlteracaoRequest enderecoAlteracaoRequest);
+	
+	@PatchMapping(value = "/{idEndereco}/principal")
+	@ResponseStatus(code = HttpStatus.OK)
+	String definirEnderecoPrincipal(@PathVariable(value = "idPessoa") UUID idPessoa, @PathVariable(value = "idEndereco") UUID idEndereco);
+
+	@GetMapping(value = "/principal")
+	@ResponseStatus(code = HttpStatus.OK)
+	EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(@PathVariable(value = "idPessoa") UUID idPessoa);
 }

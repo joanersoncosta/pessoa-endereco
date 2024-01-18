@@ -10,7 +10,7 @@ import lombok.Value;
 public class PessoaRequest {
 	
 	@NotBlank
-	private String nomeCompleto;
+	private String nome;
 	@NotNull
 	private LocalDate dataNascimento;
 }

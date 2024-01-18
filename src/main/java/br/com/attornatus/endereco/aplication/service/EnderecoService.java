@@ -17,4 +17,6 @@ public interface EnderecoService {
 	void deletaEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco);
 	void alteraEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco,
 			EnderecoAlteracaoRequest enderecoAlteracaoRequest);
+	void definirEnderecoPrincipal(UUID idPessoa, UUID idEndereco);
+	EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(UUID idPessoa);
 }
