@@ -12,11 +12,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import br.com.attornatus.DataHelpher;
 import br.com.attornatus.pessoa.application.api.PessoaAlteracaoRequest;
@@ -25,18 +23,18 @@ import br.com.attornatus.pessoa.application.api.PessoaRequest;
 import br.com.attornatus.pessoa.application.repository.PessoaRepository;
 import br.com.attornatus.pessoa.domain.Pessoa;
 
-@ContextConfiguration(classes = {PessoaApplicationService.class })
-@ExtendWith(SpringExtension.class)
+//@ContextConfiguration(classes = {PessoaApplicationService.class })
+//@ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
 class PessoaApplicationTestes {
 
-	@Autowired
+	@InjectMocks
 	private PessoaApplicationService pessoaApplicationService;
 
-	@MockBean
+	@Mock
 	private PessoaRepository pessoaRepository;
 
-	@MockBean
+	@Mock
 	DataHelpher dataHelpher;
 
 	Pessoa pessoa;
@@ -49,6 +47,13 @@ class PessoaApplicationTestes {
         when(pessoaRepository.buscaPessoaPorId(any(UUID.class))).thenReturn(pessoa);
 	}
 
+	@Test
+	void teste() {
+		PessoaRequest pessoaCriada = DataHelpher.createPessoaRequest();
+		PessoaIdResponse response = pessoaApplicationService.criaPessoa(pessoaCriada);
+		System.out.println(response.getIdPessoa().equals(pessoa.getIdPessoa()));
+	}
+	
 	@Test
 	void testCriaPessoa() {
 		PessoaRequest pessoaCriada = DataHelpher.createPessoaRequest();
