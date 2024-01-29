@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 
 import br.com.attornatus.DataHelper;
 import br.com.attornatus.handler.APIException;
+import br.com.attornatus.pessoa.application.api.PessoaAlteracaoRequest;
 import br.com.attornatus.pessoa.application.api.PessoaDetalhadoResponse;
 import br.com.attornatus.pessoa.application.api.PessoaIdResponse;
 import br.com.attornatus.pessoa.application.api.PessoaListResponse;
@@ -112,5 +113,18 @@ class PessoaApplicationServiceTest {
 		pessoaApplicationService.deletaPessoaPorId(idPessoa);
 		
 		verify(pessoaRepository, times(1)).deletaPessoa(pessoa);
+	}
+	
+	@Test
+	void testEditaPessoaPorId() {
+		PessoaAlteracaoRequest request = DataHelper.editaPessoaRequest();
+		Pessoa pessoa = mock(Pessoa.class);
+		UUID idPessoa = pessoa.getIdPessoa();
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+	
+		pessoaApplicationService.patchAlteraPessoa(idPessoa, request);
+		
+		verify(pessoa).altera(request);
+		verify(pessoaRepository, times(1)).salva(pessoa);
 	}
 }

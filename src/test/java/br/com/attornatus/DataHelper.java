@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.attornatus.pessoa.application.api.PessoaAlteracaoRequest;
 import br.com.attornatus.pessoa.application.api.PessoaRequest;
 import br.com.attornatus.pessoa.domain.Pessoa;
 
@@ -25,5 +26,9 @@ public class DataHelper {
 				Pessoa.builder().idPessoa(UUID.randomUUID()).nome("Pessoa 2").dataNascimento(LocalDate.parse("2002-02-22")).momentoDoDacastro(LocalDateTime.now()).dataHoraDaultimaAlteracao(null).build(),
 				Pessoa.builder().idPessoa(UUID.randomUUID()).nome("Pessoa 3").dataNascimento(LocalDate.parse("2003-03-03")).momentoDoDacastro(LocalDateTime.now()).dataHoraDaultimaAlteracao(null).build(),
 				Pessoa.builder().idPessoa(UUID.randomUUID()).nome("Pessoa 4").dataNascimento(LocalDate.parse("2004-04-15")).momentoDoDacastro(LocalDateTime.now()).dataHoraDaultimaAlteracao(null).build());
+	}
+
+	public static PessoaAlteracaoRequest editaPessoaRequest() {
+		return new PessoaAlteracaoRequest("pessoa 1", LocalDate.parse("1998-05-14"));
 	}
 }
