@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -98,7 +99,18 @@ class PessoaApplicationServiceTest {
 		APIException ex = assertThrows(APIException.class,
 				() -> pessoaApplicationService.buscaPessoaPorId(idPessoa));
 
-		assertEquals("Pessoa não encontrada!", ex.getMessage());
-		assertEquals(HttpStatus.NOT_FOUND, ex.getStatusException());
+		assertEquals(ex.getMessage(), "Pessoa não encontrada!");
+		assertEquals(ex.getStatusException(), HttpStatus.NOT_FOUND);
+	}
+	
+	@Test
+	void testDeletaPessoaPorId() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		UUID idPessoa = pessoa.getIdPessoa();
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+	
+		pessoaApplicationService.deletaPessoaPorId(idPessoa);
+		
+		verify(pessoaRepository, times(1)).deletaPessoa(pessoa);
 	}
 }
