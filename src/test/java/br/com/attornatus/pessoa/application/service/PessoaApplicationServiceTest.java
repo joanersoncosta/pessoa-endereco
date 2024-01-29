@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -55,6 +56,17 @@ class PessoaApplicationServiceTest {
 //		assertEquals(response, 4);
 		assertThat(response).isNotEmpty();
 		assertThat(response).hasSize(4);
+	}
+	
+	@Test
+	void testbuscaListPessoa_retornaListaVazia() {
+		
+		when(pessoaRepository.buscaTodasPessoas()).thenReturn(Collections.emptyList());
+		List<PessoaListResponse> response = pessoaApplicationService.buscaTodasPessoas();
+		
+		verify(pessoaRepository, times(1)).buscaTodasPessoas();
+		
+		assertThat(response).isEmpty();
 	}
 
 }
