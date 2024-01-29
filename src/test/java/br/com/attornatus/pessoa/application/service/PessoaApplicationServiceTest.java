@@ -3,6 +3,7 @@ package br.com.attornatus.pessoa.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,8 +18,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import br.com.attornatus.DataHelper;
+import br.com.attornatus.handler.APIException;
 import br.com.attornatus.pessoa.application.api.PessoaDetalhadoResponse;
 import br.com.attornatus.pessoa.application.api.PessoaIdResponse;
 import br.com.attornatus.pessoa.application.api.PessoaListResponse;
@@ -85,5 +88,17 @@ class PessoaApplicationServiceTest {
 		assertEquals(response.getIdPessoa(), pessoa.getIdPessoa());
 		assertEquals(PessoaDetalhadoResponse.class, response.getClass());
 	}
+	
+	@Test
+	void testBuscaPessoaPorId_retornaErro() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		UUID idPessoa = UUID.randomUUID();
+		when(pessoaRepository.buscaPessoaPorId(idPessoa)).thenReturn(pessoa);
 
+		APIException ex = assertThrows(APIException.class,
+				() -> pessoaApplicationService.buscaPessoaPorId(idPessoa));
+
+		assertEquals("Pessoa não encontrada!", ex.getMessage());
+		assertEquals(HttpStatus.NOT_FOUND, ex.getStatusException());
+	}
 }
