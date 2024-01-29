@@ -20,7 +20,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Entity
@@ -48,6 +50,14 @@ public class Endereco {
 
 	public Endereco(UUID idPessoa, @Valid EnderecoRequest enderecoRequest) {
 		this.idPessoa = idPessoa;
+		this.cep = enderecoRequest.getCep();
+		this.cidade = enderecoRequest.getCidade();
+		this.logradouro = enderecoRequest.getLogradouro();
+		this.numero = enderecoRequest.getNumero();
+		this.momentoDoDacastro = LocalDateTime.now();
+	}
+	
+	public Endereco(EnderecoRequest enderecoRequest) {
 		this.cep = enderecoRequest.getCep();
 		this.cidade = enderecoRequest.getCidade();
 		this.logradouro = enderecoRequest.getLogradouro();
