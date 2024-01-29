@@ -48,17 +48,12 @@ class PessoaApplicationTestes {
 	}
 
 	@Test
-	void teste() {
-		PessoaRequest pessoaCriada = DataHelpher.createPessoaRequest();
-		PessoaIdResponse response = pessoaApplicationService.criaPessoa(pessoaCriada);
-		System.out.println(response.getIdPessoa().equals(pessoa.getIdPessoa()));
-	}
-	
-	@Test
 	void testCriaPessoa() {
 		PessoaRequest pessoaCriada = DataHelpher.createPessoaRequest();
+		
 		when (pessoaRepository.salva(any())).thenReturn(new Pessoa(pessoaCriada));
 		PessoaIdResponse response = pessoaApplicationService.criaPessoa(pessoaCriada);
+		
 		assertNotNull(response);
         assertEquals(PessoaIdResponse.class, response.getClass());
 	}

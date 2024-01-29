@@ -58,7 +58,7 @@ class EnderecoApplicationTest {
 	}
 
 	@Test
-	void testCriaPessoa() {
+	void testCriaEndereco() {
 		EnderecoRequest enderecoCriado= DataHelpher.getEnderecoRequest();
         when(pessoaRepository.buscaPessoaPorId(any(UUID.class))).thenReturn(pessoa);
 		when (enderecoRepository.salvaEndereco(any())).thenReturn(new Endereco(enderecoCriado));
