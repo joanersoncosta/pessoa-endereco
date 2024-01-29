@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.attornatus.DataHelper;
+import br.com.attornatus.pessoa.application.api.PessoaDetalhadoResponse;
 import br.com.attornatus.pessoa.application.api.PessoaIdResponse;
 import br.com.attornatus.pessoa.application.api.PessoaListResponse;
 import br.com.attornatus.pessoa.application.api.PessoaRequest;
@@ -43,7 +45,7 @@ class PessoaApplicationServiceTest {
 	}
 	
 	@Test
-	void testbuscaListPessoa() {
+	void testBuscaListPessoa() {
 		
 		List<Pessoa> request = DataHelper.getListPessoa();
 		
@@ -59,7 +61,7 @@ class PessoaApplicationServiceTest {
 	}
 	
 	@Test
-	void testbuscaListPessoa_retornaListaVazia() {
+	void testBuscaListPessoa_retornaListaVazia() {
 		
 		when(pessoaRepository.buscaTodasPessoas()).thenReturn(Collections.emptyList());
 		List<PessoaListResponse> response = pessoaApplicationService.buscaTodasPessoas();
@@ -67,6 +69,21 @@ class PessoaApplicationServiceTest {
 		verify(pessoaRepository, times(1)).buscaTodasPessoas();
 		
 		assertThat(response).isEmpty();
+	}
+	
+	@Test
+	void testBuscaPessoaPorId() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		UUID idPessoa = pessoa.getIdPessoa();
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+		
+		PessoaDetalhadoResponse response = pessoaApplicationService.buscaPessoaPorId(idPessoa);
+		
+		verify(pessoaRepository, times(1)).buscaPessoaPorId(idPessoa);
+		
+		assertNotNull(response);
+		assertEquals(response.getIdPessoa(), pessoa.getIdPessoa());
+		assertEquals(PessoaDetalhadoResponse.class, response.getClass());
 	}
 
 }
