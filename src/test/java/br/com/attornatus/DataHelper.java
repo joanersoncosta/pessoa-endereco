@@ -5,13 +5,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.attornatus.endereco.aplication.api.EnderecoRequest;
+import br.com.attornatus.endereco.domain.Endereco;
 import br.com.attornatus.pessoa.application.api.PessoaAlteracaoRequest;
 import br.com.attornatus.pessoa.application.api.PessoaRequest;
 import br.com.attornatus.pessoa.domain.Pessoa;
 
 public class DataHelper {
 	private static final UUID ID_PESSOA1 = UUID.fromString("a713162f-20a9-4db9-a85b-90cd51ab18f4");
-
+	private static final UUID ID_ENDERECO = UUID.fromString("a713162f-20a9-4db9-a85b-90cd51ab18f4");
+	
 	public static Pessoa createPessoa() {
 		return Pessoa.builder().idPessoa(ID_PESSOA1).nome("pessoa 1").dataNascimento(LocalDate.parse("1998-05-14")).momentoDoDacastro(LocalDateTime.now()).build();
 	}
@@ -30,5 +33,15 @@ public class DataHelper {
 
 	public static PessoaAlteracaoRequest editaPessoaRequest() {
 		return new PessoaAlteracaoRequest("pessoa 1", LocalDate.parse("1998-05-14"));
+	}
+	
+	public static Endereco createEndereco() {
+		return Endereco.builder().idEndereco(ID_ENDERECO).idPessoa(ID_PESSOA1).cep("147258369").cidade("Cidade 1")
+				.logradouro("Rua 1").numero("123").principal(false).build();
+	}
+
+	public static EnderecoRequest getEnderecoRequest() {
+		EnderecoRequest enderecoRequest = new EnderecoRequest("147468369", "Itabuna", "Rua Castro Alves", "113");
+		return enderecoRequest;
 	}
 }

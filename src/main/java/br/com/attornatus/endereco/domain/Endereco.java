@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import br.com.attornatus.endereco.aplication.api.EnderecoAlteracaoRequest;
 import br.com.attornatus.endereco.aplication.api.EnderecoRequest;
 import br.com.attornatus.handler.APIException;
-import br.com.attornatus.pessoa.application.api.PessoaDetalhadoResponse;
+import br.com.attornatus.pessoa.domain.Pessoa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -81,7 +81,7 @@ public class Endereco {
 		this.principal = true;
 	}
 	
-	public void pertencePessoa(PessoaDetalhadoResponse pessoa) {
+	public void pertencePessoa(Pessoa pessoa) {
 		if(!idPessoa.equals(pessoa.getIdPessoa())){
 			throw APIException.build(HttpStatus.UNAUTHORIZED, "Cliente não autorizado");
 		}
