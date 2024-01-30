@@ -35,13 +35,25 @@ public class DataHelper {
 		return new PessoaAlteracaoRequest("pessoa 1", LocalDate.parse("1998-05-14"));
 	}
 	
-	public static Endereco createEndereco() {
+	public static Endereco getEndereco() {
 		return Endereco.builder().idEndereco(ID_ENDERECO).idPessoa(ID_PESSOA1).cep("147258369").cidade("Cidade 1")
-				.logradouro("Rua 1").numero("123").principal(false).build();
+				.logradouro("Rua 1").numero("121").principal(false).build();
 	}
 
 	public static EnderecoRequest getEnderecoRequest() {
-		EnderecoRequest enderecoRequest = new EnderecoRequest("147468369", "Itabuna", "Rua Castro Alves", "113");
+		EnderecoRequest enderecoRequest = new EnderecoRequest("147468369", "Cidade 1", "Rua 1", "121");
 		return enderecoRequest;
+	}
+
+	public static List<Endereco> getListEnderecos() {
+		return List.of(
+				Endereco.builder().idEndereco(ID_ENDERECO).idPessoa(ID_PESSOA1).cep("147258369").cidade("Cidade 1")
+						.logradouro("Rua 1").numero("121").principal(false).build(),
+				Endereco.builder().idEndereco(UUID.randomUUID()).idPessoa(ID_PESSOA1).cep("147258368").cidade("Cidade 2")
+						.logradouro("Rua 2").numero("122").principal(false).build(),
+				Endereco.builder().idEndereco(UUID.randomUUID()).idPessoa(ID_PESSOA1).cep("147258367").cidade("Cidade 3")
+						.logradouro("Rua 3").numero("123").principal(false).build(),
+				Endereco.builder().idEndereco(UUID.randomUUID()).idPessoa(ID_PESSOA1).cep("147258366").cidade("Cidade 4")
+						.logradouro("Rua 4").numero("124").principal(false).build());
 	}
 }

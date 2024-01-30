@@ -1,10 +1,12 @@
 package br.com.attornatus.endereco.aplication.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.attornatus.DataHelper;
 import br.com.attornatus.endereco.aplication.api.EnderecoIdResponse;
+import br.com.attornatus.endereco.aplication.api.EnderecoPessoaListResponse;
 import br.com.attornatus.endereco.aplication.api.EnderecoRequest;
 import br.com.attornatus.endereco.aplication.repository.EnderecoRepository;
 import br.com.attornatus.endereco.domain.Endereco;
@@ -46,4 +49,20 @@ class EnderecoApplicationServiceTest {
 		assertEquals(EnderecoIdResponse.class, response.getClass());
 	}
 
+	@Test
+	void testListEnderecoDaPessoa() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		Endereco endereco = DataHelper.getEndereco();
+		UUID idPessoa = pessoa.getIdPessoa();
+		List<Endereco> request = DataHelper.getListEnderecos();
+		
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+		when(enderecoRepository.buscaEnderecosDaPessoaComId(any())).thenReturn(request);
+
+		List<EnderecoPessoaListResponse> response = enderecoApplicationService.buscaEnderecosDaPessoaComId(idPessoa);
+
+		assertThat(response).isNotEmpty();
+		assertThat(response).hasSize(4);
+		assertThat(response.get(0).getIdEndereco()).isEqualTo(endereco.getIdEndereco());
+	}
 }
