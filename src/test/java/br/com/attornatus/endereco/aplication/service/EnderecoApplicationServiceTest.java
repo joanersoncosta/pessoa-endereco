@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,5 +65,18 @@ class EnderecoApplicationServiceTest {
 		assertThat(response).isNotEmpty();
 		assertThat(response).hasSize(4);
 		assertThat(response.get(0).getIdEndereco()).isEqualTo(endereco.getIdEndereco());
+	}
+	
+	@Test
+	void testListEnderecoDaPessoa_retornaListaVazia() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		UUID idPessoa = pessoa.getIdPessoa();
+		
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+		when(enderecoRepository.buscaEnderecosDaPessoaComId(any())).thenReturn(Collections.emptyList());
+
+		List<EnderecoPessoaListResponse> response = enderecoApplicationService.buscaEnderecosDaPessoaComId(idPessoa);
+
+		assertThat(response).isEmpty();
 	}
 }
