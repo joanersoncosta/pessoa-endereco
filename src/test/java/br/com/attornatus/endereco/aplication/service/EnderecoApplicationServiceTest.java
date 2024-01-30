@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.attornatus.DataHelper;
+import br.com.attornatus.endereco.aplication.api.EnderecoAlteracaoRequest;
 import br.com.attornatus.endereco.aplication.api.EnderecoIdResponse;
 import br.com.attornatus.endereco.aplication.api.EnderecoPessoaDetalhadoResponse;
 import br.com.attornatus.endereco.aplication.api.EnderecoPessoaListResponse;
@@ -113,5 +115,21 @@ class EnderecoApplicationServiceTest {
 		enderecoApplicationService.deletaEnderecoDaPessoaComId(idPessoa, idEndereco);
 	
 		verify(enderecoRepository, times(1)).deletaEndereco(endereco);
+	}
+	
+	@Test
+	void testEditaEnderecoDaPessoaComId() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		Endereco endereco = mock(Endereco.class);
+		EnderecoAlteracaoRequest request = DataHelper.getEditaEnderecoRequest();
+		UUID idPessoa = pessoa.getIdPessoa();
+		UUID idEndereco = endereco.getIdEndereco();
+		
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+		when(enderecoRepository.buscaEnderecoPeloId(any())).thenReturn(endereco);
+
+		enderecoApplicationService.alteraEnderecoDaPessoaComId(idPessoa, idEndereco, request);
+		verify(endereco).altera(request);
+		verify(enderecoRepository, times(1)).salvaEndereco(endereco);
 	}
 }
