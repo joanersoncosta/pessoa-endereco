@@ -158,23 +158,19 @@ class EnderecoApplicationServiceTest {
 	}
 	
 	@Test
-	void testObterEnderecoPrincipal() {
+	void testObtemEnderecoPrincipal() {
 		Pessoa pessoa = DataHelper.createPessoa();
-		Endereco endereco = mock(Endereco.class);
 		UUID idPessoa = pessoa.getIdPessoa();
-		
-		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
-		when(enderecoRepository.buscaEnderecosDaPessoaComId(any())).thenReturn(Collections.emptyList());
-		
-		Endereco retornoEnderecoPrincipal = DataHelper.getEnderecoPrincipal();
+		List<Endereco> enderecoList = DataHelper.getListEnderecosPrincipal();
 
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+		when(enderecoRepository.buscaEnderecosDaPessoaComId(any())).thenReturn(enderecoList);
+		
 		EnderecoPessoaDetalhadoResponse response = enderecoApplicationService.obterEnderecoPrincipal(idPessoa);
 		
-		verify(endereco).pertencePessoa(pessoa);
-		verify(enderecoRepository, times(1)).desativaEndereco(idPessoa);
-		verify(endereco).definirEnderecoPrincipal();
-		verify(enderecoRepository, times(1)).salvaEndereco(endereco);
-	
-		assertEquals(true, retornoEnderecoPrincipal.isPrincipal());
+		verify(enderecoRepository, times(1)).buscaEnderecosDaPessoaComId(idPessoa);
+
+		assertNotNull(response);
+		assertEquals(true, response.isPrincipal());
 	}
 }

@@ -76,4 +76,16 @@ public class DataHelper {
 		return Endereco.builder().idEndereco(ID_ENDERECO).idPessoa(ID_PESSOA1).cep("147258369").cidade("Cidade 1")
 				.logradouro("Rua 1").numero("121").principal(true).build();
 	}
+	
+	public static List<Endereco> getListEnderecosPrincipal() {
+		return List.of(
+				Endereco.builder().idEndereco(ID_ENDERECO).idPessoa(ID_PESSOA1).cep("147258369").cidade("Cidade 1")
+						.logradouro("Rua 1").numero("121").principal(false).build(),
+				Endereco.builder().idEndereco(UUID.randomUUID()).idPessoa(ID_PESSOA1).cep("147258368")
+						.cidade("Cidade 2").logradouro("Rua 2").numero("122").principal(true).build(),
+				Endereco.builder().idEndereco(UUID.randomUUID()).idPessoa(ID_PESSOA1).cep("147258367")
+						.cidade("Cidade 3").logradouro("Rua 3").numero("123").principal(false).build(),
+				Endereco.builder().idEndereco(UUID.randomUUID()).idPessoa(ID_PESSOA1).cep("147258366")
+						.cidade("Cidade 4").logradouro("Rua 4").numero("124").principal(false).build());
+	}
 }
