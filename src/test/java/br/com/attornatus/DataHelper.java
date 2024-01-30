@@ -71,4 +71,9 @@ public class DataHelper {
 		EnderecoAlteracaoRequest request = new EnderecoAlteracaoRequest("00000000", "Cidade atualizada", "Rua alterada", "111");
 		return request;
 	}
+
+	public static Endereco getEnderecoPrincipal() {
+		return Endereco.builder().idEndereco(ID_ENDERECO).idPessoa(ID_PESSOA1).cep("147258369").cidade("Cidade 1")
+				.logradouro("Rua 1").numero("121").principal(true).build();
+	}
 }

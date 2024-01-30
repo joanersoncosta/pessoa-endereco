@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -131,5 +132,28 @@ class EnderecoApplicationServiceTest {
 		enderecoApplicationService.alteraEnderecoDaPessoaComId(idPessoa, idEndereco, request);
 		verify(endereco).altera(request);
 		verify(enderecoRepository, times(1)).salvaEndereco(endereco);
+	}
+	
+	@Test
+	void testDefinirEnderecoPrincipal() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		Endereco endereco = mock(Endereco.class);
+		UUID idPessoa = pessoa.getIdPessoa();
+		UUID idEndereco = endereco.getIdEndereco();
+		
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+		when(enderecoRepository.buscaEnderecoPeloId(any())).thenReturn(endereco);
+		doNothing().when(endereco).definirEnderecoPrincipal();
+		
+		Endereco retornoEnderecoPrincipal = DataHelper.getEnderecoPrincipal();
+
+		enderecoApplicationService.definirEnderecoPrincipal(idPessoa, idEndereco);
+		
+		verify(endereco).pertencePessoa(pessoa);
+		verify(enderecoRepository, times(1)).desativaEndereco(idPessoa);
+		verify(endereco).definirEnderecoPrincipal();
+		verify(enderecoRepository, times(1)).salvaEndereco(endereco);
+	
+		assertEquals(true, retornoEnderecoPrincipal.isPrincipal());
 	}
 }
