@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -96,5 +98,20 @@ class EnderecoApplicationServiceTest {
 		assertNotNull(response);
 		assertEquals(response.getIdEndereco(), endereco.getIdEndereco());
 		assertEquals(EnderecoPessoaDetalhadoResponse.class, response.getClass());
+	}
+	
+	@Test
+	void testDeletaEnderecoDaPessoaComId() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		Endereco endereco = DataHelper.getEndereco();
+		UUID idEndereco = endereco.getIdEndereco();
+		UUID idPessoa = pessoa.getIdPessoa();
+		
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+		when(enderecoRepository.buscaEnderecoPeloId(any())).thenReturn(endereco);
+
+		enderecoApplicationService.deletaEnderecoDaPessoaComId(idPessoa, idEndereco);
+	
+		verify(enderecoRepository, times(1)).deletaEndereco(endereco);
 	}
 }
