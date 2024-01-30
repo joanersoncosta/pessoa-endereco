@@ -52,8 +52,9 @@ public class EnderecoApplicationService implements EnderecoService {
 	@Override
 	public EnderecoPessoaDetalhadoResponse buscaEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco) {
 		log.info("[inicia] EnderecoApplicationService - buscaEnderecoDaPessoaComId");
-		pessoaRepository.buscaPessoaPorId(idPessoa);
+		Pessoa pessoa = pessoaRepository.buscaPessoaPorId(idPessoa);
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
+		endereco.pertencePessoa(pessoa);		
 		log.info("[finaliza] EnderecoApplicationService - buscaEnderecoDaPessoaComId");
 		return new EnderecoPessoaDetalhadoResponse(endereco);
 	}
@@ -61,8 +62,9 @@ public class EnderecoApplicationService implements EnderecoService {
 	@Override
 	public void deletaEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco) {
 		log.info("[inicia] EnderecoApplicationService - deletaEnderecoDaPessoaComId");
-		pessoaRepository.buscaPessoaPorId(idPessoa);
+		Pessoa pessoa = pessoaRepository.buscaPessoaPorId(idPessoa);
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
+		endereco.pertencePessoa(pessoa);		
 		enderecoRepository.deletaEndereco(endereco);
 		log.info("[finaliza] EnderecoApplicationService - deletaEnderecoDaPessoaComId");
 	}
@@ -71,8 +73,9 @@ public class EnderecoApplicationService implements EnderecoService {
 	public void alteraEnderecoDaPessoaComId(UUID idPessoa, UUID idEndereco,
 			EnderecoAlteracaoRequest enderecoAlteracaoRequest) {
 		log.info("[inicia] EnderecoApplicationService - alteraEnderecoDaPessoaComId");
-		pessoaRepository.buscaPessoaPorId(idPessoa);
+		Pessoa pessoa = pessoaRepository.buscaPessoaPorId(idPessoa);
 		Endereco endereco = enderecoRepository.buscaEnderecoPeloId(idEndereco);
+		endereco.pertencePessoa(pessoa);
 		endereco.altera(enderecoAlteracaoRequest);
 		enderecoRepository.salvaEndereco(endereco);
 		log.info("[finaliza] EnderecoApplicationService - alteraEnderecoDaPessoaComId");
@@ -94,7 +97,9 @@ public class EnderecoApplicationService implements EnderecoService {
 	public EnderecoPessoaDetalhadoResponse obterEnderecoPrincipal(UUID idPessoa) {
 		log.info("[inicia] EnderecoApplicationService - obterEnderecoPrincipal");
 		pessoaRepository.buscaPessoaPorId(idPessoa);
+		Pessoa pessoa = pessoaRepository.buscaPessoaPorId(idPessoa);
 		Endereco endereco = obterEndereco(idPessoa);
+		endereco.pertencePessoa(pessoa);
 		log.info("[finaliza] EnderecoApplicationService - obterEnderecoPrincipal");
 		return new EnderecoPessoaDetalhadoResponse(endereco);
 	}
