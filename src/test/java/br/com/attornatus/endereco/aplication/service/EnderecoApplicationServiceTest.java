@@ -3,6 +3,7 @@ package br.com.attornatus.endereco.aplication.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import br.com.attornatus.DataHelper;
 import br.com.attornatus.endereco.aplication.api.EnderecoAlteracaoRequest;
@@ -28,6 +30,7 @@ import br.com.attornatus.endereco.aplication.api.EnderecoPessoaListResponse;
 import br.com.attornatus.endereco.aplication.api.EnderecoRequest;
 import br.com.attornatus.endereco.aplication.repository.EnderecoRepository;
 import br.com.attornatus.endereco.domain.Endereco;
+import br.com.attornatus.handler.APIException;
 import br.com.attornatus.pessoa.application.repository.PessoaRepository;
 import br.com.attornatus.pessoa.domain.Pessoa;
 
@@ -172,5 +175,22 @@ class EnderecoApplicationServiceTest {
 
 		assertNotNull(response);
 		assertEquals(true, response.isPrincipal());
+	}
+	
+	@Test
+	void testObtemEnderecoPrincipal_retornaErro() {
+		Pessoa pessoa = DataHelper.createPessoa();
+		UUID idPessoa = pessoa.getIdPessoa();
+
+		when(pessoaRepository.buscaPessoaPorId(any())).thenReturn(pessoa);
+		when(enderecoRepository.buscaEnderecosDaPessoaComId(any())).thenReturn(Collections.emptyList());
+		
+		APIException ex = assertThrows(APIException.class,
+				() -> enderecoApplicationService.obterEnderecoPrincipal(idPessoa));
+
+		verify(enderecoRepository, times(1)).buscaEnderecosDaPessoaComId(idPessoa);
+
+		assertEquals(ex.getMessage(), "Endereço principal não encontrado");
+		assertEquals(ex.getStatusException(), HttpStatus.NOT_FOUND);
 	}
 }
