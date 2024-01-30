@@ -1,6 +1,7 @@
 package br.com.attornatus.endereco.aplication.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import br.com.attornatus.endereco.domain.Endereco;

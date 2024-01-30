@@ -48,12 +48,13 @@ public class Endereco {
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
-	public Endereco(UUID idPessoa, @Valid EnderecoRequest enderecoRequest) {
+	public Endereco(UUID idPessoa, EnderecoRequest enderecoRequest) {
 		this.idPessoa = idPessoa;
 		this.cep = enderecoRequest.getCep();
 		this.cidade = enderecoRequest.getCidade();
 		this.logradouro = enderecoRequest.getLogradouro();
 		this.numero = enderecoRequest.getNumero();
+		this.principal = false;
 		this.momentoDoDacastro = LocalDateTime.now();
 	}
 	

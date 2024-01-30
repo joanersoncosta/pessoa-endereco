@@ -1,6 +1,7 @@
 package br.com.attornatus.endereco.infra;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,7 +35,7 @@ public class EnderecoInfraRepository implements EnderecoRepository {
 	@Override
 	public List<Endereco> buscaEnderecosDaPessoaComId(UUID idPessoa) {
 		log.info("[inicia] EnderecoInfraRepository - buscaEnderecosDaPessoaComId");
-		var enderecos = enderecoSpringDataJPArepository.findByIdPessoa(idPessoa);
+		var enderecos = enderecoSpringDataJPArepository.findAllByIdPessoa(idPessoa);
 		log.info("[finaliza] EnderecoInfraRepository - buscaEnderecosDaPessoaComId");
 		return enderecos;
 	}
@@ -67,4 +68,5 @@ public class EnderecoInfraRepository implements EnderecoRepository {
 		});
 		log.info("[finaliza] EnderecoInfraRepository - desativaEndereco");
 	}
+
 }

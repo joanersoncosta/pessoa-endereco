@@ -102,13 +102,9 @@ public class EnderecoApplicationService implements EnderecoService {
 		log.info("[inicia] EnderecoApplicationService - obterEndereco");
 		List<Endereco> enderecosDaPessoa = enderecoRepository.buscaEnderecosDaPessoaComId(idPessoa);
 		Optional<Endereco> getEndereco = enderecosDaPessoa.stream()
-				.filter(Endereco::isPrincipal)
+				.filter(n -> n.isPrincipal() == true)
 				.map(n -> {
-					if (n.isPrincipal() != true) {
-						return null;
-					}else{
 						return n;
-					}
 				}).findFirst();
 		
 		Endereco endereco = getEndereco.orElseThrow(
